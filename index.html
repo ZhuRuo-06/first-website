@@ -1,350 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login CSS</title>
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Zhu Ruo Entertainment</title>
 
-</head>
-<body>
-    
-    <div class="body">
-        <div id="Login-Section">
-            <div class="colom cont_email">
-                <label for="email">Email</label>
-                <input placeholder="Email" class="input" id="email" type="email">
-            </div>
-            <div class="colom cont_password">
-                <label for="password">Password</label>
-                <input placeholder="Password" class="input" id="password" type="password">
-            </div>
-            <div style="width: 200px;">
-                <button id="login"><span>Login</span></button>
-            </div>
-            <div class="ceklist">
-                <input type="checkbox" id="remember">
-                <label for="remember">Ingat saya</label>
-            </div>
-            <div class="show_password" id="togglePass">
-                <i class="fa-regular fa-eye show"></i>
-                <i class="fa-regular fa-eye-slash hide"></i>
-            </div>
-        </div>
-    </div>
-    
     <style>
-        #Login-Section {
-            display: flex;
-            position: relative;
-            flex-direction: column;   /* bikin item turun ke bawah */
-            justify-content: center;  /* vertical center */
-            align-items: center;      /* horizontal center */
-            width: 500px;
-            height: 400px;
-            gap: 10px;                /* jarak antar input/tombol */
-            overflow: hidden;
-            box-shadow:
-                inset -4px -4px 8px rgba(0,0,0,0.15),
-                inset 2px 2px 8px rgba(255,255,255,0.7);
-            background: #97f3ff;
-            border-radius: 12px;
-            box-sizing: border-box;   /* biar padding/gap nggak nambah width */
+        /* ===== RESET DASAR ===== */
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        #email, #login, #password {
-            width: 100%;
-            height: 40px;
-            background: #97f3ff;
-            box-shadow:
-                inset 4px 4px 10px rgba(0,0,0,0.15),
-                inset -2px -2px 8px rgba(255,255,255,0.7);
-            outline: none;
-            border: none;
-            border-radius: 6px;
-            margin: 0;
-            transition: box-shadow .5s ease;
+
+        body {
+        background: #f4f7f8;
+        display: flex;
+        justify-content: center;
+        padding: 40px 16px;
+        color: #222;
         }
-        #login {
-            cursor: pointer;
-            padding: 0;
-            box-shadow:
-                inset -4px -4px 4px rgba(0,0,0,0.15),
-                inset  2px  2px 4px rgba(255,255,255,0.7);
-            transition: box-shadow .4s ease, padding .4s ease ;
+
+        /* ===== WRAPPER ===== */
+        .container {
+        width: 100%;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
         }
-        #login:hover {
-            box-shadow:
-                inset 1.6px 1.6px 8px rgba(0,0,0,0.15),
-                inset -2px -2px 8px rgba(255,255,255,0.7);
-            padding: 6px 0px 0px 0px;
+
+        /* ===== CARD GLOBAL ===== */
+        .card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
-        #login:active {
-            box-shadow:
-                inset 5px 5px 8px rgba(0,0,0,0.15),
-                inset -2px -2px 4px rgba(255,255,255,0.7);
-            padding: 10px 0px 0px 0px;
+
+        /* ===== HERO / PROFILE ===== */
+        .profile {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
         }
-        .colom {
-            width: 60%;
-            height: 40px;
-            margin: 0px;
-            display: flex;
+
+        .photo-profile {
+        width: 140px;
+        height: 140px;
+        border-radius: 16px;
+        overflow: hidden;
+        flex-shrink: 0;
+        }
+
+        .photo-profile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        }
+
+        .profile-info {
+        flex: 1;
+        min-width: 240px;
+        }
+
+        .profile-info h1 {
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+        }
+
+        .profile-info p {
+        font-size: 0.95rem;
+        opacity: 0.7;
+        margin-bottom: 12px;
+        }
+
+        .profile-info span {
+        display: inline-block;
+        background: #e8f4f4;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        }
+
+        /* ===== PROJECT SECTION ===== */
+        .projects h2 {
+        margin-bottom: 16px;
+        }
+
+        .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
+        }
+
+        .project-card {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e5e5e5;
+        background: #fafafa;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .project-card img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        display: block;
+        }
+
+        .project-card .content {
+        padding: 12px;
+        }
+
+        .project-card h3 {
+        font-size: 1rem;
+        margin-bottom: 6px;
+        }
+
+        .project-card p {
+        font-size: 0.85rem;
+        opacity: 0.7;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+        text-align: center;
+        font-size: 0.8rem;
+        opacity: 0.6;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+        .profile {
             flex-direction: column;
-            flex-wrap: wrap;
-            align-items: center;
-            position: relative;
-            transition: height .5s ease;
-        }
-        .input {
-            position: absolute;
-            bottom: 0%;
-            z-index: 3;
-            text-align: center;
-        }
-        #email:focus, #password:focus {
-            box-shadow:
-                inset -4px -4px 8px rgba(0,0,0,0.15),
-                inset  2px  2px 4px rgba(255,255,255,0.7);
-        }
-        .colom label {
-            position: absolute;      /* posisinya relatif ke .field */
-            top: 0px;
-            z-index: 2;
-            font-size: 12px;         /* bisa disesuaikan */
-            color: #555;
-            pointer-events: none;
-        }
-        .body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100vh;
-            background: aqua;
-            user-select: none;
-        }
-        .heightes {
-            height: 60px;
-        }
-        input::placeholder {
-            color: black; /* default */
-            transition: transform .3s ease, opacity 0.7s;
+            align-items: flex-start;
         }
 
-        input:focus::placeholder,
-        input:not(:placeholder-shown)::placeholder {
-            transform: translateY(-25px) scale(0.3);
-            opacity: 0; /* hilang saat fokus atau sudah diisi */
+        .photo-profile {
+            width: 120px;
+            height: 120px;
         }
-        .ceklist input[type="checkbox"] {
-            position: absolute;  /* sembunyikan asli */
-            opacity: 0;
-            width: 0;
-            height: 0;
         }
-        .ceklist {
-            background: #97f3ff;
-            position: absolute;
-            top: 62%;
-            translate: 0px 80px;
-            width: 200px;
-            height: 35px;
-            display: flex;
-            padding: 5px 0px 0px 0px;
-            justify-content: center;
-            border-radius: 6px;
-            box-shadow:
-                inset 4px 4px 10px rgba(0,0,0,0.15),
-                inset -2px -2px 8px rgba(255,255,255,0.7);
-        }
-        
-        .ceklist label {
-            position: relative;
-            padding-left: 0;           /* default padding */
-            padding-top: 5px;
-            cursor: pointer;
-            display: inline-block;
-            transition: padding-left 0.4s ease; /* pastikan ada transition */
-        }
-
-        .ceklist label::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
-            box-shadow:
-                inset 0px 0px 0px rgba(0,0,0,0),
-                inset  0px  0px 0px rgba(255, 255, 255, 0);
-            transition: box-shadow .4s ease;
-        }
-        .ceklist label.show_check::before {
-            box-shadow:
-                inset -4px -4px 4px rgba(0,0,0,0.15),
-                inset  0px  1px 2px rgba(0,0,0,0.15),
-                inset  2px  3px 4px rgba(255,255,255,0.7);
-        }
-
-        .ceklist input:checked + label::before {
-            background: #97f3ff;
-        }
-
-        .ceklist label::after {
-            content: '✔';
-            position: absolute;
-            top: -2px;
-            left: 5px;
-            font-size: 22px;
-            color: black;
-            opacity: 0;
-            transition: opacity 0.2s ease, color .6s ease;
-        }  
-
-        .ceklist input:checked + label::after {
-            opacity: 1;
-        }
-        .ceklist:hover label::after {
-            color: white; /* saat hover di container checkbox */
-        }
-        .show_password {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            right: 10%;
-            top: 47.24%;
-            border: none;
-            border-radius: 6px;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow:
-                inset -4px -4px 4px rgba(0,0,0,0.15),
-                inset  2px  2px 4px rgba(255,255,255,0.7);
-        }
-        .show_password.active {
-            display: flex;
-        }
-
     </style>
-    <script>
-        // Ambil input dan container masing-masing
-        const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
+</head>
 
-        const emailContainer = document.querySelector(".cont_email");
-        const passwordContainer = document.querySelector(".cont_password");
+<body>
+    <div class="container">
 
-        // Fungsi untuk toggle class saat input fokus / blur
-        function toggleHeightes(input, container) {
-            input.addEventListener("focus", () => {
-            container.classList.add("heightes");
-            });
-            input.addEventListener("blur", () => {
-            container.classList.remove("heightes");
-            });
-        }
+        <!-- ===== PROFILE ===== -->
+        <section class="card profile">
+            <div class="photo-profile">
+                <img src="https://raw.githubusercontent.com/ZhuRuo-06/first-website/main/assets/loha.jpg" alt="Foto Profil">
+            </div>
 
-        // Pasang event
-        toggleHeightes(emailInput, emailContainer);
-        toggleHeightes(passwordInput, passwordContainer);
+            <div class="profile-info">
+                <h1>Ahmad Zubaidullah Romadloni</h1>
+                <p>Web Developer · Indonesia</p>
+                <span>Belajar · Bangun · Eksperimen</span>
+            </div>
+        </section>
 
+        <!-- ===== PROJECTS ===== -->
+        <section class="card projects">
+            <span style="color: lightgray;">Kosong</span>
+        </section>
 
+        <!-- ===== FOOTER ===== -->
+        <footer>
+            © 2026 Zhu Ruo Entertainment
+        </footer>
 
-
-        const ceklists = document.querySelectorAll('.ceklist');
-
-        ceklists.forEach(cek => {
-            const label = cek.querySelector('label');
-            const input = cek.querySelector('#remember');
-            let hoverTimeout, leaveTimeout;
-
-            cek.addEventListener('mouseenter', () => {
-                // Hentikan timeout leave sebelumnya
-                clearTimeout(leaveTimeout);
-
-                label.style.paddingLeft = '40px';
-                label.classList.add('show_padd');
-
-                // Hentikan timeout hover sebelumnya
-                clearTimeout(hoverTimeout);
-                hoverTimeout = setTimeout(() => {
-                    label.classList.add('show_check');
-                }, 300);
-            });
-
-            cek.addEventListener('mouseleave', () => {
-                // Hentikan timeout hover
-                clearTimeout(hoverTimeout);
-
-                if (!input.checked) {
-                    label.classList.remove('show_check');
-                    leaveTimeout = setTimeout(() => {
-                        label.classList.remove('show_check');
-                        label.style.paddingLeft = '0px';
-                        label.classList.remove('show_padd');
-                    }, 300); // delay kecil biar transisi masih smooth
-                }
-            });
-
-            input.addEventListener('change', () => {
-                if (input.checked) {
-                    clearTimeout(leaveTimeout);
-                    label.style.paddingLeft = '35px';
-                    label.classList.add('show_padd');
-                    label.classList.add('show_check');
-                } else {
-                    if (!cek.matches(':hover')) {
-                        label.classList.remove('show_check');
-                        leaveTimeout = setTimeout(() => {
-                            label.classList.remove('show_padd');
-                            label.style.paddingLeft = '0px';
-                        }, 400);
-                    }
-                }
-            });
-        });
-        const password = document.getElementById('password');
-const showPass = document.getElementById('togglePass');
-
-const iconShow = showPass.querySelector('.show');
-const iconHide = showPass.querySelector('.hide');
-
-let hideTimer;
-
-// state awal
-iconHide.style.display = 'none';
-
-// toggle show/hide password
-showPass.addEventListener('click', (e) => {
-    e.stopPropagation(); // cegah langsung ketutup
-    const isHidden = password.type === 'password';
-    password.type = isHidden ? 'text' : 'password';
-    iconShow.style.display = isHidden ? 'none' : 'inline-block';
-    iconHide.style.display = isHidden ? 'inline-block' : 'none';
-});
-
-// fokus password → munculin icon
-password.addEventListener('focus', () => {
-    clearTimeout(hideTimer);
-    showPass.classList.add('active');
-});
-
-// klik di luar → delay hilang
-document.addEventListener('click', (e) => {
-    if (!password.contains(e.target) && !showPass.contains(e.target)) {
-        hideTimer = setTimeout(() => {
-            showPass.classList.remove('active');
-        }, 500);
-    }
-});
-
-    </script>
-
+    </div>
 </body>
 </html>
