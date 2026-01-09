@@ -20,49 +20,67 @@
 </section>
 
 <script>
-const API = "https://comment-backend-nu.vercel.app/api/comments?path=" + location.pathname;
+const API =
+  "https://comment-backend-nu.vercel.app/api/comments?path=" +
+  encodeURIComponent(location.pathname);
 
-async function loadComments(){
+const list = document.getElementById("comment-list");
+const form = document.getElementById("comment-form");
+const nameInput = document.getElementById("name");
+const messageInput = document.getElementById("message");
+
+async function loadComments() {
   const res = await fetch(API);
   const json = await res.json();
 
-  console.log("GET:", json);
-
   if (!json.comments || !Array.isArray(json.comments)) {
-    document.getElementById("comment-list").innerHTML =
-      "<p>Belum ada komentar</p>";
+    list.innerHTML = "<p>Belum ada komentar</p>";
     return;
   }
 
-  document.getElementById("comment-list").innerHTML =
-    json.comments.map(c => `
+  list.innerHTML = json.comments
+    .map(
+      c => `
       <div class="comment">
         <b>${c.name}</b>
         <p>${c.message}</p>
       </div>
-    `).join("");
+    `
+    )
+    .join("");
 }
 
-document.getElementById("comment-form").onsubmit = async e => {
+form.onsubmit = async e => {
   e.preventDefault();
 
-  await fetch(API,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({
-      name: name.value,
-      message: message.value
-    })
+  const payload = {
+    name: nameInput.value.trim(),
+    message: messageInput.value.trim()
+  };
+
+  if (!payload.name || !payload.message) return;
+
+  const res = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
   });
 
-  e.target.reset();
-  await loadComments(); // ← PENTING
+  if (!res.ok) {
+    console.error("POST gagal");
+    return;
+  }
+
+  form.reset();
+  await loadComments(); // realtime
 };
 
 loadComments();
 </script>
 
 
+
 </body>
 </html>
+
 
