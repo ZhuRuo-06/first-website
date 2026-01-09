@@ -1,45 +1,100 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo Comment</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Comment</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f6f6f6;
+      padding: 40px;
+    }
+    #comments {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .comment {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    .comment:last-child {
+      border-bottom: none;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 14px;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
+
 <section id="comments">
   <h3>Komentar</h3>
 
-  <div id="comment-list"></div>
+  <div id="comment-list">Loading...</div>
 
   <form id="comment-form">
     <input id="name" placeholder="Nama" required>
     <textarea id="message" placeholder="Tulis komentar..." required></textarea>
-    <button>Kirim</button>
+    <button type="submit">Kirim</button>
   </form>
 </section>
 
 <script>
-const API = "https://comment-backend-nu.vercel.app/api/comments?path=" + location.pathname;
+const API =
+  "https://comment-backend-nu.vercel.app/api/comments?path=" +
+  location.pathname;
 
-async function loadComments(){
-  const res = await fetch(API);
-  const data = await res.json();
+async function loadComments() {
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
 
-  document.getElementById("comment-list").innerHTML =
-    data.map(c => `
-      <div class="comment">
-        <b>${c.name}</b>
-        <p>${c.message}</p>
-      </div>
-    `).join("");
+    console.log("API RESPONSE:", data);
+
+    if (!Array.isArray(data)) {
+      document.getElementById("comment-list").innerHTML =
+        "<p>Gagal memuat komentar</p>";
+      return;
+    }
+
+    if (data.length === 0) {
+      document.getElementById("comment-list").innerHTML =
+        "<p>Belum ada komentar</p>";
+      return;
+    }
+
+    document.getElementById("comment-list").innerHTML =
+      data.map(c => `
+        <div class="comment">
+          <b>${c.name}</b>
+          <p>${c.message}</p>
+        </div>
+      `).join("");
+  } catch (err) {
+    console.error(err);
+    document.getElementById("comment-list").innerHTML =
+      "<p>Error mengambil komentar</p>";
+  }
 }
 
-document.getElementById("comment-form").onsubmit = async e => {
+document.getElementById("comment-form").addEventListener("submit", async e => {
   e.preventDefault();
 
-  await fetch(API,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
+  await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name: name.value,
       message: message.value
@@ -48,14 +103,10 @@ document.getElementById("comment-form").onsubmit = async e => {
 
   e.target.reset();
   loadComments();
-};
+});
 
 loadComments();
 </script>
 
-
 </body>
 </html>
-
-
-
