@@ -6,38 +6,47 @@
 <title>Demo Comment</title>
 </head>
 <body>
+<section id="comments">
+  <h3>Komentar</h3>
 
-<h2>Komentar</h2>
-<ul id="comments"></ul>
+  <div id="comment-list"></div>
 
-<input id="name" placeholder="Nama">
-<br>
-<textarea id="msg" placeholder="Komentar"></textarea>
-<br>
-<button onclick="addComment()">Kirim</button>
+  <form id="comment-form">
+    <input id="name" placeholder="Nama" required>
+    <textarea id="message" placeholder="Tulis komentar..." required></textarea>
+    <button>Kirim</button>
+  </form>
+</section>
 
 <script>
-let comments = JSON.parse(localStorage.getItem('comments')) || [];
+const API = "https://comment-section.vercel.app/api/comments?path=" + location.pathname;
 
-function render() {
-  document.getElementById('comments').innerHTML =
-    comments.map(c=>`<li><strong>${c.name}:</strong> ${c.message}</li>`).join('');
+async function loadComments(){
+  const res = await fetch(API);
+  const data = await res.json();
+  const box = document.getElementById("comment-list");
+  box.innerHTML = data.map(c =>
+    `<div><b>${c.name}</b><p>${c.message}</p></div>`
+  ).join("");
 }
 
-function addComment() {
-  const name = document.getElementById('name').value;
-  const message = document.getElementById('msg').value;
-  if(!name || !message) return alert('Nama & komentar wajib');
-  
-  comments.push({name,message});
-  localStorage.setItem('comments', JSON.stringify(comments));
-  render();
-  document.getElementById('name').value = '';
-  document.getElementById('msg').value = '';
-}
+document.getElementById("comment-form").onsubmit = async e => {
+  e.preventDefault();
+  await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({
+      name: name.value,
+      message: message.value
+    })
+  });
+  e.target.reset();
+  loadComments();
+};
 
-render();
+loadComments();
 </script>
 
 </body>
 </html>
+
