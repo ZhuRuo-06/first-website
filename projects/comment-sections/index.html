@@ -19,19 +19,24 @@
 </section>
 
 <script>
-const API = "https://comment-section.vercel.app/api/comments?path=" + location.pathname;
+const API = "https://comment-backend.vercel.app/api/comments?path=" + location.pathname;
 
 async function loadComments(){
   const res = await fetch(API);
   const data = await res.json();
-  const box = document.getElementById("comment-list");
-  box.innerHTML = data.map(c =>
-    `<div><b>${c.name}</b><p>${c.message}</p></div>`
-  ).join("");
+
+  document.getElementById("comment-list").innerHTML =
+    data.map(c => `
+      <div class="comment">
+        <b>${c.name}</b>
+        <p>${c.message}</p>
+      </div>
+    `).join("");
 }
 
 document.getElementById("comment-form").onsubmit = async e => {
   e.preventDefault();
+
   await fetch(API,{
     method:"POST",
     headers:{ "Content-Type":"application/json" },
@@ -40,6 +45,7 @@ document.getElementById("comment-form").onsubmit = async e => {
       message: message.value
     })
   });
+
   e.target.reset();
   loadComments();
 };
@@ -47,6 +53,8 @@ document.getElementById("comment-form").onsubmit = async e => {
 loadComments();
 </script>
 
+
 </body>
 </html>
+
 
