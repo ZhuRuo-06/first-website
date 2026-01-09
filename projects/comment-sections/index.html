@@ -20,38 +20,35 @@
 </section>
 
 <script>
-const API = "https://comment-backend-nu.vercel.app/api/comments?path=" + encodeURIComponent(location.pathname);
+const API = "https://comment-backend-nu.vercel.app/api/comments?path=" + location.pathname;
 
-async function loadComments() {
-  try {
-    const res = await fetch(API);
-    const data = await res.json();
+async function loadComments(){
+  const res = await fetch(API);
+  const json = await res.json();
 
-    if (!Array.isArray(data)) {
-      document.getElementById("comment-list").innerHTML = "Format data salah";
-      return;
-    }
+  console.log("GET:", json);
 
+  if (!json.comments || !Array.isArray(json.comments)) {
     document.getElementById("comment-list").innerHTML =
-      data.map(c => `
-        <div>
-          <b>${c.name}</b>
-          <p>${c.message}</p>
-        </div>
-      `).join("");
-
-  } catch (err) {
-    document.getElementById("comment-list").innerHTML = "Gagal ambil komentar";
-    console.error(err);
+      "<p>Belum ada komentar</p>";
+    return;
   }
+
+  document.getElementById("comment-list").innerHTML =
+    json.comments.map(c => `
+      <div class="comment">
+        <b>${c.name}</b>
+        <p>${c.message}</p>
+      </div>
+    `).join("");
 }
 
-document.getElementById("comment-form").addEventListener("submit", async e => {
+document.getElementById("comment-form").onsubmit = async e => {
   e.preventDefault();
 
-  await fetch(API, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  await fetch(API,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
     body: JSON.stringify({
       name: name.value,
       message: message.value
@@ -59,11 +56,13 @@ document.getElementById("comment-form").addEventListener("submit", async e => {
   });
 
   e.target.reset();
-  loadComments();
-});
+  await loadComments(); // ← PENTING
+};
 
 loadComments();
 </script>
 
+
 </body>
 </html>
+
