@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Dashboard Comment Section",
+    "description": "Landing page fotografi wedding dengan fokus konversi dan storytelling.",
+    "tech": ["HTML", "CSS", "JS"],
+    "thumbnail": "/assets/projects/dashboard-comment.jpg",
+    "url": "/projects/comment-dashboard/"
+  },
+  {
+    "title": "Comment Section",
+    "description": "Landing page fotografi wedding dengan fokus konversi dan storytelling.",
+    "tech": ["HTML", "CSS", "JS"],
+    "thumbnail": "/assets/projects/dashboard-comment.jpg",
+    "url": "/projects/comment-sections/"
+  }
+]

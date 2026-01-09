@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Comment</title>
+
+    <style>
+        /* ===== RESET DASAR ===== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #f4f7f8;
+            display: flex;
+            justify-content: center;
+            padding: 40px 16px;
+            color: #222;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 960px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .comment-card {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #e5e5e5;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .comment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .comment-card strong {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .comment-card span {
+            font-size: 13px;
+            opacity: 0.6;
+        }
+
+        .comment-card p {
+            margin: 8px 0 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .back {
+            margin-top: 20px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
+            transition: color 0.2s ease;
+        }
+
+        .back:hover {
+            color: #1da1f2;
+        }
+
+        /* Kosong placeholder */
+        #kosong {
+            color: lightgray;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <section class="card">
+        <header>
+            <h1>Dashboard Comment</h1>
+            <p>Simulasi sistem komentar per halaman</p>
+        </header>
+
+        <section class="comment-list" id="comment-list">
+            <span id="kosong">Belum ada komentar</span>
+        </section>
+
+        <a href="/" class="back">← Kembali ke Beranda</a>
+    </section>
+</div>
+
+<script>
+async function loadComments() {
+  const res = await fetch('/api/comments');
+  const data = await res.json();
+  const list = document.getElementById('comments');
+  list.innerHTML = '';
+  data.forEach(c=>{
+    const li = document.createElement('li');
+    li.textContent = `${c.name}: ${c.message}`;
+    list.appendChild(li);
+  });
+}
+
+async function addComment() {
+  const name = document.getElementById('name').value;
+  const message = document.getElementById('msg').value;
+  if(!name || !message) return alert('Nama & komentar wajib');
+
+  await fetch('/api/comments', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({name,message})
+  });
+
+  document.getElementById('name').value='';
+  document.getElementById('msg').value='';
+  loadComments();
+}
+
+loadComments();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Comment</title>
+</head>
+<body>
+
+<h2>Komentar</h2>
+<ul id="comments"></ul>
+
+<input id="name" placeholder="Nama">
+<br>
+<textarea id="msg" placeholder="Komentar"></textarea>
+<br>
+<button onclick="addComment()">Kirim</button>
+
+<script>
+let comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+function render() {
+  document.getElementById('comments').innerHTML =
+    comments.map(c=>`<li><strong>${c.name}:</strong> ${c.message}</li>`).join('');
+}
+
+function addComment() {
+  const name = document.getElementById('name').value;
+  const message = document.getElementById('msg').value;
+  if(!name || !message) return alert('Nama & komentar wajib');
+  
+  comments.push({name,message});
+  localStorage.setItem('comments', JSON.stringify(comments));
+  render();
+  document.getElementById('name').value = '';
+  document.getElementById('msg').value = '';
+}
+
+render();
+</script>
+
+</body>
+</html>
